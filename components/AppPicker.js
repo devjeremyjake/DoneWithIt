@@ -1,82 +1,94 @@
 import React, { useState } from "react";
 import {
-	StyleSheet,
-	Text,
 	View,
+	StyleSheet,
+	TouchableWithoutFeedback,
 	Modal,
 	Button,
-	SafeAreaView,
 	FlatList,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import colors from "../config/colors";
-import DefaultStyles from "../config/styles";
+
 import AppText from "./AppText";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import Screen from "./Screen";
+import defaultStyles from "../config/styles";
 import PickerItem from "./PickerItem";
 
-const AppPicker = ({
+function AppPicker({
 	icon,
-	placeholder,
 	items,
 	onSelectItem,
+	width = "100%",
+	placeholder,
 	selectedItem,
-}) => {
+	PickerItemComponent = PickerItem,
+	numberOfColums = 1,
+}) {
 	const [modalVisible, setModalVisible] = useState(false);
+
 	return (
 		<>
-			<TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
-				<View style={styles.container}>
+			<TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
+				<View style={[styles.container, { width }]}>
 					{icon && (
 						<MaterialCommunityIcons
 							name={icon}
-							color="#000"
 							size={20}
+							color={defaultStyles.colors.medium}
 							style={styles.icon}
 						/>
 					)}
-					<AppText style={styles.text}>
-						{selectedItem ? selectedItem.label : placeholder}
-					</AppText>
-					<MaterialCommunityIcons name="chevron-down" color="#000" size={20} />
+					{selectedItem ? (
+						<AppText style={styles.text}>{selectedItem.label}</AppText>
+					) : (
+						<AppText style={styles.placeholder}>{placeholder}</AppText>
+					)}
+
+					<MaterialCommunityIcons
+						name="chevron-down"
+						size={20}
+						color={defaultStyles.colors.medium}
+					/>
 				</View>
 			</TouchableWithoutFeedback>
 			<Modal visible={modalVisible} animationType="slide">
-				<SafeAreaView>
-					<Button
-						title="Close"
-						onPress={() => setModalVisible(!modalVisible)}
-					/>
+				<Screen>
+					<Button title="Close" onPress={() => setModalVisible(false)} />
 					<FlatList
 						data={items}
 						keyExtractor={(item) => item.value.toString()}
+						numColumns={numberOfColums}
 						renderItem={({ item }) => (
-							<PickerItem
+							<PickerItemComponent
+								item={item}
 								label={item.label}
 								onPress={() => {
-									setModalVisible(!modalVisible);
+									setModalVisible(false);
 									onSelectItem(item);
 								}}
 							/>
 						)}
 					/>
-				</SafeAreaView>
+				</Screen>
 			</Modal>
 		</>
 	);
-};
+}
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: colors.lightGrey,
-		borderRadius: 20,
+		backgroundColor: defaultStyles.colors.light,
+		borderRadius: 25,
 		flexDirection: "row",
 		padding: 15,
 		marginVertical: 10,
-		width: "100%",
 	},
 	icon: {
 		marginRight: 10,
+	},
+	placeholder: {
+		color: defaultStyles.colors.medium,
+		flex: 1,
 	},
 	text: {
 		flex: 1,
