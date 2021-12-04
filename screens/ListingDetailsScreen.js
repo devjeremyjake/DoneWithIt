@@ -1,20 +1,21 @@
-import React from "react";
-import { View, Image, StyleSheet } from "react-native";
-import AppText from "../components/AppText";
+import React from 'react';
+import { View, Image, StyleSheet } from 'react-native';
+import AppText from '../components/AppText';
 
-import ListItem from "../components/lists/ListItem";
-import colors from "../config/colors";
+import ListItem from '../components/lists/ListItem';
+import colors from '../config/colors';
 
-function ListingDetailsScreen(props) {
+function ListingDetailsScreen({ route }) {
+	const listing = route.params;
 	return (
 		<View>
-			<Image style={styles.image} source={require("../assets/jacket.jpg")} />
+			<Image style={styles.image} source={{ uri: listing.images[0].url }} />
 			<View style={styles.detailsContainer}>
-				<AppText style={styles.title}>Red jacket for sale</AppText>
-				<AppText style={styles.price}>$100</AppText>
+				<AppText style={styles.title}>{listing.title}</AppText>
+				<AppText style={styles.price}>${listing.price}</AppText>
 				<View style={styles.userContainer}>
 					<ListItem
-						image={require("../assets/mosh.jpg")}
+						image={require('../assets/mosh.jpg')}
 						title="Mosh Hamedani"
 						subTitle="5 Listings"
 					/>
@@ -29,18 +30,18 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	image: {
-		width: "100%",
+		width: '100%',
 		height: 300,
 	},
 	price: {
 		color: colors.secondary,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		fontSize: 20,
 		marginVertical: 10,
 	},
 	title: {
 		fontSize: 24,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	userContainer: {
 		marginVertical: 40,
