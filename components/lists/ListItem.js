@@ -1,78 +1,69 @@
 import React from "react";
-import {
-	View,
-	StyleSheet,
-	Image,
-	TouchableOpacity,
-	TouchableHighlight,
-} from "react-native";
-import AppText from "../AppText";
+import { View, StyleSheet, Image, TouchableHighlight } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import { Entypo } from "@expo/vector-icons";
+
+import Text from "../Text";
 import colors from "../../config/colors";
 
 function ListItem({
-	title,
-	subTitle,
-	image,
-	IconComponent,
-	onPress,
-	renderRightActions,
-	showChevrons,
+  title,
+  subTitle,
+  image,
+  IconComponent,
+  onPress,
+  renderRightActions,
 }) {
-	return (
-		<Swipeable renderRightActions={renderRightActions}>
-			<TouchableHighlight underlayColor={colors.light} onPress={onPress}>
-				<View style={styles.container}>
-					{IconComponent}
-					{image && <Image style={styles.image} source={image} />}
-					<View style={styles.detailsContainer}>
-						<AppText numberOfLines={2} style={styles.title}>
-							{title}
-						</AppText>
-						{subTitle && (
-							<AppText numberOfLines={5} style={styles.subTitle}>
-								{subTitle}
-							</AppText>
-						)}
-					</View>
-					{showChevrons && (
-						<View style={styles.arrowRight}>
-							<Entypo name="chevron-right" size={24} color="black" />
-						</View>
-					)}
-				</View>
-			</TouchableHighlight>
-		</Swipeable>
-	);
+  return (
+    <Swipeable renderRightActions={renderRightActions}>
+      <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
+        <View style={styles.container}>
+          {IconComponent}
+          {image && <Image style={styles.image} source={image} />}
+          <View style={styles.detailsContainer}>
+            <Text style={styles.title} numberOfLines={1}>
+              {title}
+            </Text>
+            {subTitle && (
+              <Text style={styles.subTitle} numberOfLines={2}>
+                {subTitle}
+              </Text>
+            )}
+          </View>
+          <MaterialCommunityIcons
+            color={colors.medium}
+            name="chevron-right"
+            size={25}
+          />
+        </View>
+      </TouchableHighlight>
+    </Swipeable>
+  );
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flexDirection: "row",
-		padding: 15,
-		backgroundColor: colors.white,
-		alignItems: "center",
-	},
-	detailsContainer: {
-		marginLeft: 10,
-		justifyContent: "center",
-		flex: 1,
-	},
-	image: {
-		width: 70,
-		height: 70,
-		borderRadius: 35,
-	},
-	subTitle: {
-		color: colors.medium,
-	},
-	title: {
-		fontWeight: "500",
-	},
-	arrowRight: {
-		color: colors.medium,
-	},
+  container: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 15,
+    backgroundColor: colors.white,
+  },
+  detailsContainer: {
+    flex: 1,
+    marginLeft: 10,
+    justifyContent: "center",
+  },
+  image: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+  },
+  subTitle: {
+    color: colors.medium,
+  },
+  title: {
+    fontWeight: "500",
+  },
 });
 
 export default ListItem;
