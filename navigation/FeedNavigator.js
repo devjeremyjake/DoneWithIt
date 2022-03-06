@@ -1,22 +1,16 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import ListingsScreen from '../screens/ListingsScreen';
 import ListingDetailsScreen from '../screens/ListingDetailsScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const FeedNavigator = () => (
-	<Stack.Navigator mode="modal">
-		<Stack.Screen
-			name="Listing"
-			component={ListingsScreen}
-			options={{ headerShown: false }}
-		/>
-		<Stack.Screen
-			name="ListingDetails"
-			options={({ route }) => ({ title: route.params.title })}
-			component={ListingDetailsScreen}
-		/>
+	<Stack.Navigator
+		screenOptions={{ headerShown: false, presentation: 'modal' }}
+	>
+		<Stack.Screen name="Listings" component={ListingsScreen} />
+		<Stack.Screen name="ListingDetails" component={ListingDetailsScreen} />
 	</Stack.Navigator>
 );
 
